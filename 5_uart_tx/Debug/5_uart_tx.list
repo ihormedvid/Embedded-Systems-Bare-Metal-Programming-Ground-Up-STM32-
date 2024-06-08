@@ -41,11 +41,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  18 .debug_line   00000605  00000000  00000000  0001e6f5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    0004fe18  00000000  00000000  0001ecfa  2**0
+ 19 .debug_str    0004fdf7  00000000  00000000  0001ecfa  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_frame  000000e8  00000000  00000000  0006eb14  2**2
+ 20 .debug_frame  000000e8  00000000  00000000  0006eaf4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000045  00000000  00000000  0006ebfc  2**0
+ 21 .debug_line_str 00000043  00000000  00000000  0006ebdc  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -81,108 +81,108 @@ Disassembly of section .text:
 080001d8 <main>:
 static uint16_t compute_uart_bd(uint32_t PeriphClk, uint32_t BaudRate);
 
-void uart1_tx_init(void);
-void uart1_write(int ch);
+void uart2_tx_init(void);
+void uart2_write(int ch);
 
 int main(void) {
  80001d8:	b580      	push	{r7, lr}
  80001da:	af00      	add	r7, sp, #0
 
-	uart1_tx_init();
- 80001dc:	f000 f804 	bl	80001e8 <uart1_tx_init>
+	uart2_tx_init();
+ 80001dc:	f000 f804 	bl	80001e8 <uart2_tx_init>
 
 	while(1){
-		uart1_write('R');
+		uart2_write('R');
  80001e0:	2052      	movs	r0, #82	; 0x52
- 80001e2:	f000 f84d 	bl	8000280 <uart1_write>
+ 80001e2:	f000 f84d 	bl	8000280 <uart2_write>
  80001e6:	e7fb      	b.n	80001e0 <main+0x8>
 
-080001e8 <uart1_tx_init>:
+080001e8 <uart2_tx_init>:
 	}
 }
 
 
 
-void uart1_tx_init(void) {
+void uart2_tx_init(void) {
  80001e8:	b580      	push	{r7, lr}
  80001ea:	af00      	add	r7, sp, #0
 							// Configure uart gpio pin
 	//Enable clock access to gpioa
 	RCC->AHB1ENR|= GPIOAEN;
- 80001ec:	4b20      	ldr	r3, [pc, #128]	; (8000270 <uart1_tx_init+0x88>)
+ 80001ec:	4b20      	ldr	r3, [pc, #128]	; (8000270 <uart2_tx_init+0x88>)
  80001ee:	6b1b      	ldr	r3, [r3, #48]	; 0x30
- 80001f0:	4a1f      	ldr	r2, [pc, #124]	; (8000270 <uart1_tx_init+0x88>)
+ 80001f0:	4a1f      	ldr	r2, [pc, #124]	; (8000270 <uart2_tx_init+0x88>)
  80001f2:	f043 0301 	orr.w	r3, r3, #1
  80001f6:	6313      	str	r3, [r2, #48]	; 0x30
 
 	//Set PA9 mode to alternate function mode
-	GPIOA->MODER &=~(1U<<18);
- 80001f8:	4b1e      	ldr	r3, [pc, #120]	; (8000274 <uart1_tx_init+0x8c>)
+	GPIOA->MODER &=~(1U<<4);
+ 80001f8:	4b1e      	ldr	r3, [pc, #120]	; (8000274 <uart2_tx_init+0x8c>)
  80001fa:	681b      	ldr	r3, [r3, #0]
- 80001fc:	4a1d      	ldr	r2, [pc, #116]	; (8000274 <uart1_tx_init+0x8c>)
- 80001fe:	f423 2380 	bic.w	r3, r3, #262144	; 0x40000
+ 80001fc:	4a1d      	ldr	r2, [pc, #116]	; (8000274 <uart2_tx_init+0x8c>)
+ 80001fe:	f023 0310 	bic.w	r3, r3, #16
  8000202:	6013      	str	r3, [r2, #0]
-	GPIOA->MODER |= (1U<<19);
- 8000204:	4b1b      	ldr	r3, [pc, #108]	; (8000274 <uart1_tx_init+0x8c>)
+	GPIOA->MODER |= (1U<<5);
+ 8000204:	4b1b      	ldr	r3, [pc, #108]	; (8000274 <uart2_tx_init+0x8c>)
  8000206:	681b      	ldr	r3, [r3, #0]
- 8000208:	4a1a      	ldr	r2, [pc, #104]	; (8000274 <uart1_tx_init+0x8c>)
- 800020a:	f443 2300 	orr.w	r3, r3, #524288	; 0x80000
+ 8000208:	4a1a      	ldr	r2, [pc, #104]	; (8000274 <uart2_tx_init+0x8c>)
+ 800020a:	f043 0320 	orr.w	r3, r3, #32
  800020e:	6013      	str	r3, [r2, #0]
 
 	//Set PA9 alternate function type to UART_TX (AF07)
 	GPIOA->AFR[0] |= (1U<<8);
- 8000210:	4b18      	ldr	r3, [pc, #96]	; (8000274 <uart1_tx_init+0x8c>)
+ 8000210:	4b18      	ldr	r3, [pc, #96]	; (8000274 <uart2_tx_init+0x8c>)
  8000212:	6a1b      	ldr	r3, [r3, #32]
- 8000214:	4a17      	ldr	r2, [pc, #92]	; (8000274 <uart1_tx_init+0x8c>)
+ 8000214:	4a17      	ldr	r2, [pc, #92]	; (8000274 <uart2_tx_init+0x8c>)
  8000216:	f443 7380 	orr.w	r3, r3, #256	; 0x100
  800021a:	6213      	str	r3, [r2, #32]
 	GPIOA->AFR[0] |= (1U<<9);
- 800021c:	4b15      	ldr	r3, [pc, #84]	; (8000274 <uart1_tx_init+0x8c>)
+ 800021c:	4b15      	ldr	r3, [pc, #84]	; (8000274 <uart2_tx_init+0x8c>)
  800021e:	6a1b      	ldr	r3, [r3, #32]
- 8000220:	4a14      	ldr	r2, [pc, #80]	; (8000274 <uart1_tx_init+0x8c>)
+ 8000220:	4a14      	ldr	r2, [pc, #80]	; (8000274 <uart2_tx_init+0x8c>)
  8000222:	f443 7300 	orr.w	r3, r3, #512	; 0x200
  8000226:	6213      	str	r3, [r2, #32]
 	GPIOA->AFR[0] |= (1U<<10);
- 8000228:	4b12      	ldr	r3, [pc, #72]	; (8000274 <uart1_tx_init+0x8c>)
+ 8000228:	4b12      	ldr	r3, [pc, #72]	; (8000274 <uart2_tx_init+0x8c>)
  800022a:	6a1b      	ldr	r3, [r3, #32]
- 800022c:	4a11      	ldr	r2, [pc, #68]	; (8000274 <uart1_tx_init+0x8c>)
+ 800022c:	4a11      	ldr	r2, [pc, #68]	; (8000274 <uart2_tx_init+0x8c>)
  800022e:	f443 6380 	orr.w	r3, r3, #1024	; 0x400
  8000232:	6213      	str	r3, [r2, #32]
 	GPIOA->AFR[0] &= ~(1U<<11);
- 8000234:	4b0f      	ldr	r3, [pc, #60]	; (8000274 <uart1_tx_init+0x8c>)
+ 8000234:	4b0f      	ldr	r3, [pc, #60]	; (8000274 <uart2_tx_init+0x8c>)
  8000236:	6a1b      	ldr	r3, [r3, #32]
- 8000238:	4a0e      	ldr	r2, [pc, #56]	; (8000274 <uart1_tx_init+0x8c>)
+ 8000238:	4a0e      	ldr	r2, [pc, #56]	; (8000274 <uart2_tx_init+0x8c>)
  800023a:	f423 6300 	bic.w	r3, r3, #2048	; 0x800
  800023e:	6213      	str	r3, [r2, #32]
 
 							// Configure uart module
 	//Enable clock access to uart1
-	RCC->APB2ENR |= UART1EN; // -> ???
- 8000240:	4b0b      	ldr	r3, [pc, #44]	; (8000270 <uart1_tx_init+0x88>)
- 8000242:	6c5b      	ldr	r3, [r3, #68]	; 0x44
- 8000244:	4a0a      	ldr	r2, [pc, #40]	; (8000270 <uart1_tx_init+0x88>)
- 8000246:	f043 0310 	orr.w	r3, r3, #16
- 800024a:	6453      	str	r3, [r2, #68]	; 0x44
+	RCC->APB1ENR |= UART2EN; // -> ???
+ 8000240:	4b0b      	ldr	r3, [pc, #44]	; (8000270 <uart2_tx_init+0x88>)
+ 8000242:	6c1b      	ldr	r3, [r3, #64]	; 0x40
+ 8000244:	4a0a      	ldr	r2, [pc, #40]	; (8000270 <uart2_tx_init+0x88>)
+ 8000246:	f443 3300 	orr.w	r3, r3, #131072	; 0x20000
+ 800024a:	6413      	str	r3, [r2, #64]	; 0x40
 
 	//Configure baudrate
-	uart_set_baudrate(USART1,ABP2_CLK, UART_BAUDRATE);
+	uart_set_baudrate(USART2,ABP1_CLK, UART_BAUDRATE);
  800024c:	f44f 32e1 	mov.w	r2, #115200	; 0x1c200
- 8000250:	4909      	ldr	r1, [pc, #36]	; (8000278 <uart1_tx_init+0x90>)
- 8000252:	480a      	ldr	r0, [pc, #40]	; (800027c <uart1_tx_init+0x94>)
+ 8000250:	4909      	ldr	r1, [pc, #36]	; (8000278 <uart2_tx_init+0x90>)
+ 8000252:	480a      	ldr	r0, [pc, #40]	; (800027c <uart2_tx_init+0x94>)
  8000254:	f000 f82c 	bl	80002b0 <uart_set_baudrate>
 
 
 	//Configure the tranfer direction
-	USART1->CR1 = CR1_TE;
- 8000258:	4b08      	ldr	r3, [pc, #32]	; (800027c <uart1_tx_init+0x94>)
+	USART2->CR1 = CR1_TE;
+ 8000258:	4b08      	ldr	r3, [pc, #32]	; (800027c <uart2_tx_init+0x94>)
  800025a:	2208      	movs	r2, #8
  800025c:	60da      	str	r2, [r3, #12]
 
 	// Enable uart module
-	USART1->CR1 |= CR1_UE;
- 800025e:	4b07      	ldr	r3, [pc, #28]	; (800027c <uart1_tx_init+0x94>)
+	USART2->CR1 |= CR1_UE;
+ 800025e:	4b07      	ldr	r3, [pc, #28]	; (800027c <uart2_tx_init+0x94>)
  8000260:	68db      	ldr	r3, [r3, #12]
- 8000262:	4a06      	ldr	r2, [pc, #24]	; (800027c <uart1_tx_init+0x94>)
+ 8000262:	4a06      	ldr	r2, [pc, #24]	; (800027c <uart2_tx_init+0x94>)
  8000264:	f443 5300 	orr.w	r3, r3, #8192	; 0x2000
  8000268:	60d3      	str	r3, [r2, #12]
 }
@@ -192,29 +192,29 @@ void uart1_tx_init(void) {
  8000270:	40023800 	.word	0x40023800
  8000274:	40020000 	.word	0x40020000
  8000278:	00f42400 	.word	0x00f42400
- 800027c:	40011000 	.word	0x40011000
+ 800027c:	40004400 	.word	0x40004400
 
-08000280 <uart1_write>:
+08000280 <uart2_write>:
 
-void uart1_write(int ch) {
+void uart2_write(int ch) {
  8000280:	b480      	push	{r7}
  8000282:	b083      	sub	sp, #12
  8000284:	af00      	add	r7, sp, #0
  8000286:	6078      	str	r0, [r7, #4]
 	// Make sure the transmit data register is empty
-	while(!(USART1->SR & SR_TXE)){}
+	while(!(USART2->SR & SR_TXE)){}
  8000288:	bf00      	nop
- 800028a:	4b08      	ldr	r3, [pc, #32]	; (80002ac <uart1_write+0x2c>)
+ 800028a:	4b08      	ldr	r3, [pc, #32]	; (80002ac <uart2_write+0x2c>)
  800028c:	681b      	ldr	r3, [r3, #0]
  800028e:	f003 0380 	and.w	r3, r3, #128	; 0x80
  8000292:	2b00      	cmp	r3, #0
- 8000294:	d0f9      	beq.n	800028a <uart1_write+0xa>
+ 8000294:	d0f9      	beq.n	800028a <uart2_write+0xa>
 
 	// Write to transmit data register
 
-	USART1->DR = (ch & 0xFF);
+	USART2->DR = (ch & 0xFF);
  8000296:	687b      	ldr	r3, [r7, #4]
- 8000298:	4a04      	ldr	r2, [pc, #16]	; (80002ac <uart1_write+0x2c>)
+ 8000298:	4a04      	ldr	r2, [pc, #16]	; (80002ac <uart2_write+0x2c>)
  800029a:	b2db      	uxtb	r3, r3
  800029c:	6053      	str	r3, [r2, #4]
 }
@@ -224,7 +224,7 @@ void uart1_write(int ch) {
  80002a4:	f85d 7b04 	ldr.w	r7, [sp], #4
  80002a8:	4770      	bx	lr
  80002aa:	bf00      	nop
- 80002ac:	40011000 	.word	0x40011000
+ 80002ac:	40004400 	.word	0x40004400
 
 080002b0 <uart_set_baudrate>:
 
