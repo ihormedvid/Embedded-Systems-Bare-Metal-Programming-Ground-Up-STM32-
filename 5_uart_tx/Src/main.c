@@ -25,7 +25,7 @@ int main(void) {
 	uart2_tx_init();
 
 	while(1){
-		uart2_write('R');
+		uart2_write('G');
 	}
 }
 

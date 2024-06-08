@@ -92,8 +92,8 @@ int main(void) {
  80001dc:	f000 f804 	bl	80001e8 <uart2_tx_init>
 
 	while(1){
-		uart2_write('R');
- 80001e0:	2052      	movs	r0, #82	; 0x52
+		uart2_write('G');
+ 80001e0:	2047      	movs	r0, #71	; 0x47
  80001e2:	f000 f84d 	bl	8000280 <uart2_write>
  80001e6:	e7fb      	b.n	80001e0 <main+0x8>
 
