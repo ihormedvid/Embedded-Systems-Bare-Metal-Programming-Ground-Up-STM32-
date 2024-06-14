@@ -1,5 +1,5 @@
 
-11_Systick_delay.elf:     file format elf32-littlearm
+12_timers.elf:     file format elf32-littlearm
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
